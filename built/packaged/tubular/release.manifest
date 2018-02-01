@@ -1,0 +1,60 @@
+CACHE MANIFEST
+
+CACHE:
+/tubular/semantic.js
+/tubular/main.js
+/tubular/typescript.js
+/tubular/marked/marked.min.js
+/tubular/highlight.js/highlight.pack.js
+/tubular/lzma/lzma_worker-min.js
+/tubular/fuse.min.js
+/tubular/jquery.js
+/tubular/pxtlib.js
+/tubular/pxtcompiler.js
+/tubular/pxtblocks.js
+/tubular/pxtwinrt.js
+/tubular/pxteditor.js
+/tubular/pxtsim.js
+/tubular/semantic.css
+/tubular/rtlsemantic.css
+/tubular/custom.css
+/tubular/icons.css
+
+
+
+
+# blockly
+/tubular/blockly/blockly_compressed.js
+/tubular/blockly/blocks_compressed.js
+/tubular/blockly/msg/js/en.js
+/tubular/blockly/media/sprites.png
+/tubular/blockly/media/click.mp3
+/tubular/blockly/media/disconnect.wav
+/tubular/blockly/media/delete.mp3
+
+# monaco; keep in sync with webapp/public/index.html
+/tubular/vs/loader.js
+/tubular/vs/base/worker/workerMain.js
+/tubular/vs/basic-languages/src/bat.js
+/tubular/vs/basic-languages/src/cpp.js
+/tubular/vs/editor/editor.main.css
+/tubular/vs/editor/editor.main.js
+/tubular/vs/editor/editor.main.nls.js
+/tubular/vs/language/json/jsonMode.js
+/tubular/vs/language/json/jsonWorker.js
+/tubular/vs/language/typescript/lib/typescriptServices.js
+/tubular/vs/language/typescript/src/mode.js
+/tubular/vs/language/typescript/src/worker.js
+
+# ai
+https://az416426.vo.msecnd.net/scripts/a/ai.0.js
+
+/tubular/worker.js
+/tubular/monacoworker.js
+
+# ver Tue Jan 30 2018 15:28:24 GMT-0700 (MST)
+
+/tubular/target.js
+  
+NETWORK:
+*

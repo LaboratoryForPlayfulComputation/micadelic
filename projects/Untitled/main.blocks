@@ -1,0 +1,36 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <variables></variables>
+  <block type="peer_receive" id="he}2AWl9yYcCoovV0x:y" x="20" y="20">
+    <value name="key">
+      <shadow type="text" id="qnKzO`}QlghR5z?HwHBh">
+        <field name="TEXT">test</field>
+      </shadow>
+    </value>
+    <statement name="HANDLER">
+      <block type="video_seek" id="n2;;s=m;y_G.-;5!(UC9">
+        <value name="time">
+          <shadow type="math_number" id="t=Wl[Qhri/Pzi]V*E-w#">
+            <field name="NUM">0</field>
+          </shadow>
+          <block type="device_random" id="`YkDCNabqcanvw^B{DN?">
+            <value name="min">
+              <shadow type="math_number" id="#N]@o8u*2qN@`E`ubJ--">
+                <field name="NUM">10</field>
+              </shadow>
+            </value>
+            <value name="limit">
+              <shadow type="math_number" id="*wTZCopU[Rfp)16FVe=[">
+                <field name="NUM">400</field>
+              </shadow>
+            </value>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="pxt-on-start" id="=aX^2utw`ag7lV6m#g7v" x="424" y="20">
+    <statement name="HANDLER">
+      <block type="video_play" id="0Q|MtpP|WSMviefNWq$u"></block>
+    </statement>
+  </block>
+</xml>
