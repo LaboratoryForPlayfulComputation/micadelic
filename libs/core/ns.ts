@@ -1,8 +1,8 @@
 /**
- * Youtube
+ * Sound
  */
-//% color=#f44242 icon="\uf16a" weight=100
-namespace video {
+//% color=#f44242 icon="\uf130" weight=100
+namespace sound {
 
 }
 

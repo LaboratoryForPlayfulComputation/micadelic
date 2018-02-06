@@ -2,7 +2,7 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts" />
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts" />
 /// <reference path="../typings/globals/peerjs/index.d.ts" />
-/// <reference path="../sim/video.d.ts" />
+/// <reference path="../sim/sound.d.ts" />
 declare namespace pxsim.loops {
     /**
      * Repeats the code forever in the background. On each iteration, allows other code to run.
@@ -49,80 +49,5 @@ declare namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void>;
     }
 }
-declare namespace pxsim.video {
-    function resetVideo(): void;
-    /**
-    * Set video using YouTube URL ID
-     * @param rate
-     */
-    function setVideo(id: string): void;
-    /**
-    * Change video speed
-     * @param rate
-     */
-    function setSpeed(rate: number): void;
-    /**
-    * Get video speed
-     */
-    function getSpeed(): number;
-    /**
-    * Determine if the video is playing
-     */
-    function isPlaying(): boolean;
-    /**
-    * Determine the current time of the video
-     */
-    function getCurrentTime(): number;
-    /**
-    * Determine the duration of the video
-     */
-    function getDuration(): number;
-    /**
-    * Get the video's current volume
-     */
-    function getVolume(): number;
-    /**
-    * Determine if the video is muted
-     */
-    function isMuted(): boolean;
-    /**
-    * Seek to a specific time
-     * @param time
-     */
-    function seek(time: number): void;
-    /**
-    * Rewind a specific number of seconds
-     * @param value
-     */
-    function rewind(value: number): void;
-    /**
-    * Fast forward a specific number of seconds
-     * @param value
-     */
-    function fastforward(value: number): void;
-    /**
-    * Set volume of the video
-     * @param value
-     */
-    function setVolume(value: number): void;
-    /**
-    * Play video
-     */
-    function play(): void;
-    /**
-    * Pause video
-     */
-    function pause(): void;
-    /**
-    * Stop video
-     */
-    function stop(): void;
-    /**
-    * Mute video
-     */
-    function mute(): void;
-    /**
-    * Unmute video
-     */
-    function unmute(): void;
+declare namespace pxsim.sound {
 }

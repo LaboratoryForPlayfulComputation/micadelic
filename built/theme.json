@@ -1,6 +1,6 @@
 {
-  "logoUrl": "https://laboratoryforplayfulcomputation.github.io/tubular/",
-  "homeUrl": "https://laboratoryforplayfulcomputation.github.io/tubular/",
+  "logoUrl": "https://laboratoryforplayfulcomputation.github.io/micadelic/",
+  "homeUrl": "https://laboratoryforplayfulcomputation.github.io/micadelic/",
   "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
   "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
   "betaUrl": "https://makecode.com/",
@@ -407,10 +407,10 @@
       "prevPath": "/types/function"
     }
   ],
-  "embedUrl": "https://laboratoryforplayfulcomputation.github.io/tubular/",
-  "id": "Tubular",
-  "title": "Tubular",
-  "name": "Tubular",
+  "embedUrl": "https://laboratoryforplayfulcomputation.github.io/micadelic/",
+  "id": "Micadelic",
+  "title": "Micadelic",
+  "name": "Micadelic",
   "htmlDocIncludes": {},
   "locales": {}
 }
