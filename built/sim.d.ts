@@ -45,8 +45,20 @@ declare namespace pxsim {
      */
     class Board extends pxsim.BaseBoard {
         bus: EventBus;
+        canvas: HTMLCanvasElement;
+        canvasContext: CanvasRenderingContext2D;
+        audioContext: AudioContext;
+        waveformAnalyser: AnalyserNode;
+        frequencyBarsAnalyser: AnalyserNode;
+        source: any;
+        waveformBufferLength: number;
+        waveformDataArray: Uint8Array;
+        frequencyBarsBufferLength: number;
+        frequencyBarsDataArray: Uint8Array;
         constructor();
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void>;
+        initAudioStream(): void;
+        drawAudioStream(): void;
     }
 }
 declare namespace pxsim.sound {

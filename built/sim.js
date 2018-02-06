@@ -167,36 +167,86 @@ var pxsim;
         __extends(Board, _super);
         function Board() {
             _super.call(this);
+            this.canvas = document.getElementById("visualizer-canvas");
+            this.canvasContext = this.canvas.getContext("2d");
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.waveformAnalyser = this.audioContext.createAnalyser();
+            this.waveformAnalyser.fftSize = 2048;
+            this.frequencyBarsAnalyser = this.audioContext.createAnalyser();
+            this.frequencyBarsAnalyser.fftSize = 256;
+            this.waveformBufferLength = this.waveformAnalyser.frequencyBinCount;
+            this.waveformDataArray = new Uint8Array(this.waveformBufferLength);
+            this.frequencyBarsBufferLength = this.frequencyBarsAnalyser.frequencyBinCount;
+            this.frequencyBarsDataArray = new Uint8Array(this.frequencyBarsBufferLength);
+            this.initAudioStream();
             this.bus = new pxsim.EventBus(pxsim.runtime);
         }
         Board.prototype.initAsync = function (msg) {
             // reset sound stuff eventually       
             return Promise.resolve();
         };
+        Board.prototype.initAudioStream = function () {
+            if (!navigator.getUserMedia) {
+                navigator.getUserMedia = navigator.getUserMedia
+                    || navigator.webkitGetUserMedia
+                    || navigator.mozGetUserMedia
+                    || navigator.msGetUserMedia;
+            }
+            var self = this;
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({ audio: true }, function (stream) {
+                    self.source = self.audioContext.createMediaStreamSource(stream);
+                    self.source.connect(self.waveformAnalyser);
+                    self.source.connect(self.frequencyBarsAnalyser);
+                }, function (e) {
+                    pxsim.console.log('Error capturing audio.');
+                });
+            }
+            else {
+                pxsim.console.log('getUserMedia not supported in this browser.');
+            }
+            this.source = self.source;
+            requestAnimationFrame(this.drawAudioStream.bind(this));
+        };
+        Board.prototype.drawAudioStream = function () {
+            this.waveformAnalyser.getByteTimeDomainData(this.waveformDataArray);
+            this.frequencyBarsAnalyser.getByteFrequencyData(this.frequencyBarsDataArray);
+            this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.canvasContext.lineWidth = 2;
+            this.canvasContext.strokeStyle = 'rgb(0, 0, 0)';
+            this.canvasContext.beginPath();
+            var waveformSliceWidth = this.canvas.width * 1.0 / this.waveformBufferLength;
+            var frequencySliceWidth = this.canvas.width * 1.0 / this.frequencyBarsBufferLength;
+            var xw = 0;
+            for (var i = 0; i < this.waveformBufferLength; i++) {
+                var vw = this.waveformDataArray[i] / 128.0;
+                var yw = vw * this.canvas.height / 2;
+                if (i === 0) {
+                    this.canvasContext.moveTo(xw, yw);
+                }
+                else {
+                    this.canvasContext.lineTo(xw, yw);
+                }
+                xw += waveformSliceWidth;
+            }
+            var xf = 0;
+            var barWidth = (this.canvas.width / this.frequencyBarsBufferLength) * 2.5;
+            var barHeight = 0;
+            for (var i = 0; i < this.frequencyBarsBufferLength; i++) {
+                barHeight = this.frequencyBarsDataArray[i] / 2;
+                var barColor = barHeight + 100;
+                if (barColor > 255)
+                    barColor = 255;
+                this.canvasContext.fillStyle = 'rgb(30,30,' + (barColor) + ')';
+                this.canvasContext.fillRect(xf, this.canvas.height - barHeight / 2, barWidth, barHeight);
+                xf += barWidth + 1;
+            }
+            this.canvasContext.lineTo(this.canvas.width, this.canvas.height / 2);
+            this.canvasContext.stroke();
+            requestAnimationFrame(this.drawAudioStream.bind(this));
+        };
         return Board;
     }(pxsim.BaseBoard));
     pxsim.Board = Board;
 })(pxsim || (pxsim = {}));
 /// <reference path="sound.d.ts" />
-var pxsim;
-(function (pxsim) {
-    var sound;
-    (function (sound) {
-        if (!navigator.getUserMedia) {
-            navigator.getUserMedia = navigator.getUserMedia
-                || navigator.webkitGetUserMedia
-                || navigator.mozGetUserMedia
-                || navigator.msGetUserMedia;
-        }
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ audio: true }, function (e) {
-                // what goes here?
-            }, function (e) {
-                alert('Error capturing audio.');
-            });
-        }
-        else {
-            alert('getUserMedia not supported in this browser.');
-        }
-    })(sound = pxsim.sound || (pxsim.sound = {}));
-})(pxsim || (pxsim = {}));
