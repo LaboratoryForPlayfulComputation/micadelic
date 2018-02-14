@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" manifest="/micadelic/release.manifest" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tubular</title>
+    <link rel="stylesheet" type="text/css" href="/micadelic/sim.css">
+    <style>
+        body {
+            background: transparent;
+            overflow: hidden;
+        }
+    </style>     
+    <script src="/micadelic/bluebird.min.js"></script>
+    <script src="/micadelic/pxtsim.js"></script>
+    <script src="/micadelic/sim.js"></script>
+    <!--<script src="/micadelic/yin.js"></script>-->
+
+</head>
+
+<body>
+    <canvas id="visualizer-canvas" style="padding: 0px; width:100%; height:100%;"></canvas>
+
+    <script type="text/javascript">
+        /* Code for putting user ID box outside of sim frame */
+        let sims = parent.document.getElementById("simulators");
+        let userIdForm = parent.document.createElement("FORM");
+        let fieldSet = parent.document.createElement("FIELDSET");
+        fieldSet.setAttribute("disabled", "disabled");  
+        fieldSet.setAttribute("style", "display: inline-block;");
+        let legend = parent.document.createElement("LEGEND");
+        legend.innerHTML = "user id";      
+        let userIdInput = parent.document.createElement("INPUT");
+        userIdInput.setAttribute("id", "userid");
+        userIdInput.value = "";
+        userIdInput.setAttribute("type", "text");
+        userIdInput.setAttribute("name", "userId");
+        fieldSet.appendChild(legend);
+        fieldSet.appendChild(userIdInput);
+        userIdForm.appendChild(fieldSet);
+        sims.appendChild(userIdForm);
+    </script>
+
+</body>
