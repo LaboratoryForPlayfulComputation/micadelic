@@ -67,7 +67,9 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            // reset sound stuff eventually       
+            /*this.waveformAnalyser.disconnect();  
+            this.frequencyBarsAnalyser.disconnect();  
+            this.volumeAnalyser.disconnect();  */
             return Promise.resolve();
         }
 
@@ -82,10 +84,12 @@ namespace pxsim {
             let self = this;
             if ((navigator as any).getUserMedia) {
                 (navigator as any).getUserMedia({audio: true}, function (stream: MediaStream) {
-                    self.source = self.audioContext.createMediaStreamSource(stream);
-                    self.source.connect(self.waveformAnalyser);
-                    self.source.connect(self.frequencyBarsAnalyser);
-                    self.source.connect(self.volumeAnalyser);
+                    if (!self.source){
+                        self.source = self.audioContext.createMediaStreamSource(stream);
+                        self.source.connect(self.waveformAnalyser);
+                        self.source.connect(self.frequencyBarsAnalyser);
+                        self.source.connect(self.volumeAnalyser);
+                    }
                 }, function (e: any) {
                     console.log('Error capturing audio.');
                 });

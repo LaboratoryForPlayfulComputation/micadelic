@@ -187,7 +187,9 @@ var pxsim;
             this.bus = new pxsim.EventBus(pxsim.runtime);
         }
         Board.prototype.initAsync = function (msg) {
-            // reset sound stuff eventually       
+            /*this.waveformAnalyser.disconnect();
+            this.frequencyBarsAnalyser.disconnect();
+            this.volumeAnalyser.disconnect();  */
             return Promise.resolve();
         };
         Board.prototype.initAudioStream = function () {
@@ -200,10 +202,12 @@ var pxsim;
             var self = this;
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true }, function (stream) {
-                    self.source = self.audioContext.createMediaStreamSource(stream);
-                    self.source.connect(self.waveformAnalyser);
-                    self.source.connect(self.frequencyBarsAnalyser);
-                    self.source.connect(self.volumeAnalyser);
+                    if (!self.source) {
+                        self.source = self.audioContext.createMediaStreamSource(stream);
+                        self.source.connect(self.waveformAnalyser);
+                        self.source.connect(self.frequencyBarsAnalyser);
+                        self.source.connect(self.volumeAnalyser);
+                    }
                 }, function (e) {
                     pxsim.console.log('Error capturing audio.');
                 });
