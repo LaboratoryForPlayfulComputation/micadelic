@@ -1,0 +1,10 @@
+CACHE MANIFEST
+
+CACHE:
+/micadelic/bluebird.min.js
+/micadelic/pxtsim.js
+/micadelic/sim.js
+/micadelic/sim.css
+
+NETWORK:
+*

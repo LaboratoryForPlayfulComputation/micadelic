@@ -1,0 +1,60 @@
+CACHE MANIFEST
+
+CACHE:
+/micadelic/semantic.js
+/micadelic/main.js
+/micadelic/typescript.js
+/micadelic/marked/marked.min.js
+/micadelic/highlight.js/highlight.pack.js
+/micadelic/lzma/lzma_worker-min.js
+/micadelic/fuse.min.js
+/micadelic/jquery.js
+/micadelic/pxtlib.js
+/micadelic/pxtcompiler.js
+/micadelic/pxtblocks.js
+/micadelic/pxtwinrt.js
+/micadelic/pxteditor.js
+/micadelic/pxtsim.js
+/micadelic/semantic.css
+/micadelic/rtlsemantic.css
+/micadelic/custom.css
+/micadelic/icons.css
+
+
+
+
+# blockly
+/micadelic/blockly/blockly_compressed.js
+/micadelic/blockly/blocks_compressed.js
+/micadelic/blockly/msg/js/en.js
+/micadelic/blockly/media/sprites.png
+/micadelic/blockly/media/click.mp3
+/micadelic/blockly/media/disconnect.wav
+/micadelic/blockly/media/delete.mp3
+
+# monaco; keep in sync with webapp/public/index.html
+/micadelic/vs/loader.js
+/micadelic/vs/base/worker/workerMain.js
+/micadelic/vs/basic-languages/src/bat.js
+/micadelic/vs/basic-languages/src/cpp.js
+/micadelic/vs/editor/editor.main.css
+/micadelic/vs/editor/editor.main.js
+/micadelic/vs/editor/editor.main.nls.js
+/micadelic/vs/language/json/jsonMode.js
+/micadelic/vs/language/json/jsonWorker.js
+/micadelic/vs/language/typescript/lib/typescriptServices.js
+/micadelic/vs/language/typescript/src/mode.js
+/micadelic/vs/language/typescript/src/worker.js
+
+# ai
+https://az416426.vo.msecnd.net/scripts/a/ai.0.js
+
+/micadelic/worker.js
+/micadelic/monacoworker.js
+
+# ver Tue Feb 13 2018 20:13:29 GMT-0700 (MST)
+
+/micadelic/target.js
+  
+NETWORK:
+*
