@@ -26,12 +26,15 @@
   "messaging.receive|block": "when I receive key %key|do",
   "messaging.send|block": "send key %key| value %value| to %id",
   "messaging|block": "messaging",
+  "sound.getVolume|block": "get mic volume",
+  "sound|block": "sound",
   "{id:category}Array": "Array",
   "{id:category}Arrays": "Arrays",
   "{id:category}Console": "Console",
   "{id:category}Loops": "Loops",
   "{id:category}Math": "Math",
   "{id:category}Messaging": "Messaging",
+  "{id:category}Sound": "Sound",
   "{id:category}String": "String",
   "{id:category}Text": "Text"
 }

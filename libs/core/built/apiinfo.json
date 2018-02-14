@@ -2492,12 +2492,36 @@
     "weight": 100,
     "paramHelp": {},
     "jsDoc": "Sound",
-    "_name": "sound"
+    "block": "sound"
    },
    "pkg": null,
    "retType": "",
    "parameters": null,
    "qName": "sound"
+  },
+  "sound.getVolume": {
+   "kind": 3,
+   "namespace": "sound",
+   "name": "getVolume",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "get_volume",
+    "block": "get mic volume",
+    "blockNamespace": "sound",
+    "inBasicCategory": "true",
+    "weight": 100,
+    "shim": "sound::getVolume",
+    "paramHelp": {},
+    "jsDoc": "Mic Volume",
+    "_name": "getVolume"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getVolume()",
+   "qName": "sound.getVolume"
   }
  }
 }

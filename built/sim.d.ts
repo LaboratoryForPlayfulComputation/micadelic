@@ -49,18 +49,27 @@ declare namespace pxsim {
         canvas: HTMLCanvasElement;
         canvasContext: CanvasRenderingContext2D;
         audioContext: AudioContext;
-        waveformAnalyser: AnalyserNode;
-        frequencyBarsAnalyser: AnalyserNode;
         source: any;
+        waveformAnalyser: AnalyserNode;
         waveformBufferLength: number;
         waveformDataArray: Uint8Array;
+        frequencyBarsAnalyser: AnalyserNode;
         frequencyBarsBufferLength: number;
         frequencyBarsDataArray: Uint8Array;
+        volumeAnalyser: AnalyserNode;
+        volumeBuggerLength: number;
+        volumeDataArray: Uint8Array;
+        micVolume: number;
         constructor();
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void>;
         initAudioStream(): void;
+        getVolume(array: Uint8Array): number;
         drawAudioStream(): void;
     }
 }
 declare namespace pxsim.sound {
+    /**
+     * Mic Volume
+     */
+    function getVolume(): number;
 }

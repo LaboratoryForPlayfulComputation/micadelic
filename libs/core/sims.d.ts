@@ -50,5 +50,16 @@ declare namespace messaging {
     function receive(key: string, handler: () => void): void;
 
 }
+declare namespace sound {
+    /**
+     * Mic Volume
+     */
+    //% blockId=get_volume block="get mic volume"
+    //% blockNamespace=sound inBasicCategory=true
+    //% weight=100
+    //% shim=sound::getVolume
+    function getVolume(): number;
+
+}
 
 // Auto-generated. Do not edit. Really.

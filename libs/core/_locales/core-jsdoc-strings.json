@@ -103,5 +103,7 @@
   "messaging": "Messaging",
   "messaging.receive": "Allows user to define callbacks for receive event",
   "messaging.send": "Peer",
-  "messaging.send|param|id": "The value of the marker"
+  "messaging.send|param|id": "The value of the marker",
+  "sound": "Sound",
+  "sound.getVolume": "Mic Volume"
 }
