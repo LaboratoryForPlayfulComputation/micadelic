@@ -1,9 +1,15 @@
+/// <reference path="../sim/sound.d.ts" />
 /// <reference path="../libs/core/enums.d.ts" />
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts" />
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts" />
 /// <reference path="../typings/globals/peerjs/index.d.ts" />
 /// <reference path="../typings/globals/webaudioapi/index.d.ts" />
-/// <reference path="../sim/sound.d.ts" />
+declare namespace pxsim.analysis {
+    function findFundamentalFreq(buffer: Uint8Array, sampleRate: number): number;
+    function detectPitch(): string;
+    function findCentsOffPitch(freq: number, refFreq: any): number;
+    function findClosestNote(freq: number): any;
+}
 declare namespace pxsim.loops {
     /**
      * Repeats the code forever in the background. On each iteration, allows other code to run.
@@ -35,6 +41,12 @@ declare namespace pxsim.messaging {
      */
     function receive(key: string, handler: RefAction): void;
 }
+declare namespace pxsim.notes {
+    let notesArray: {
+        "note": string;
+        "frequency": number;
+    }[];
+}
 declare namespace pxsim {
     /**
      * Gets the current 'board', eg. program state.
@@ -60,6 +72,7 @@ declare namespace pxsim {
         volumeBuggerLength: number;
         volumeDataArray: Uint8Array;
         micVolume: number;
+        notesArray: any;
         constructor();
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void>;
         initAudioStream(): void;

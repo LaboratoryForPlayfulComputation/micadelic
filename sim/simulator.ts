@@ -39,7 +39,8 @@ namespace pxsim {
         public volumeAnalyser : AnalyserNode;
         public volumeBuggerLength : number;        
         public volumeDataArray : Uint8Array;     
-        public micVolume : number;   
+        public micVolume : number;  
+        public notesArray : any; 
         
         constructor() {
             super();
@@ -61,6 +62,8 @@ namespace pxsim {
             this.volumeAnalyser.fftSize = 512;
             this.volumeBuggerLength = this.volumeAnalyser.frequencyBinCount;
             this.volumeDataArray =  new Uint8Array(this.volumeBuggerLength);        
+
+            this.notesArray = notes.notesArray;
 
             this.initAudioStream();
             this.bus = new EventBus(runtime); 
@@ -117,6 +120,8 @@ namespace pxsim {
             this.frequencyBarsAnalyser.getByteFrequencyData(this.frequencyBarsDataArray);
             this.volumeAnalyser.getByteFrequencyData(this.volumeDataArray);
             this.micVolume = this.getVolume(this.volumeDataArray);
+
+            console.log(analysis.detectPitch());
 
             this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.canvasContext.lineWidth = 2;

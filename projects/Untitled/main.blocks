@@ -1,6 +1,6 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
   <variables></variables>
-  <block type="device_forever" id="8(zfuBOmJ|:?Zk4]AbSm" x="0" y="0">
+  <block type="device_forever" id="8(zfuBOmJ|:?Zk4]AbSm" x="20" y="20">
     <statement name="HANDLER">
       <block type="controls_if" id="^A9#u2l`MB3v=^_TmkuO">
         <value name="IF0">

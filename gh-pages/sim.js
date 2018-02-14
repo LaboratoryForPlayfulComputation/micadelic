@@ -173,17 +173,23 @@ var pxsim;
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.waveformAnalyser = this.audioContext.createAnalyser();
             this.waveformAnalyser.fftSize = 2048;
-            this.frequencyBarsAnalyser = this.audioContext.createAnalyser();
-            this.frequencyBarsAnalyser.fftSize = 512;
             this.waveformBufferLength = this.waveformAnalyser.frequencyBinCount;
             this.waveformDataArray = new Uint8Array(this.waveformBufferLength);
+            this.frequencyBarsAnalyser = this.audioContext.createAnalyser();
+            this.frequencyBarsAnalyser.fftSize = 512;
             this.frequencyBarsBufferLength = this.frequencyBarsAnalyser.frequencyBinCount;
             this.frequencyBarsDataArray = new Uint8Array(this.frequencyBarsBufferLength);
+            this.volumeAnalyser = this.audioContext.createAnalyser();
+            this.volumeAnalyser.fftSize = 512;
+            this.volumeBuggerLength = this.volumeAnalyser.frequencyBinCount;
+            this.volumeDataArray = new Uint8Array(this.volumeBuggerLength);
             this.initAudioStream();
             this.bus = new pxsim.EventBus(pxsim.runtime);
         }
         Board.prototype.initAsync = function (msg) {
-            // reset sound stuff eventually       
+            /*this.waveformAnalyser.disconnect();
+            this.frequencyBarsAnalyser.disconnect();
+            this.volumeAnalyser.disconnect();  */
             return Promise.resolve();
         };
         Board.prototype.initAudioStream = function () {
@@ -196,9 +202,12 @@ var pxsim;
             var self = this;
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true }, function (stream) {
-                    self.source = self.audioContext.createMediaStreamSource(stream);
-                    self.source.connect(self.waveformAnalyser);
-                    self.source.connect(self.frequencyBarsAnalyser);
+                    if (!self.source) {
+                        self.source = self.audioContext.createMediaStreamSource(stream);
+                        self.source.connect(self.waveformAnalyser);
+                        self.source.connect(self.frequencyBarsAnalyser);
+                        self.source.connect(self.volumeAnalyser);
+                    }
                 }, function (e) {
                     pxsim.console.log('Error capturing audio.');
                 });
@@ -209,9 +218,22 @@ var pxsim;
             this.source = self.source;
             requestAnimationFrame(this.drawAudioStream.bind(this));
         };
+        Board.prototype.getVolume = function (array) {
+            if (array) {
+                var total = 0;
+                for (var i = 0; i < array.length; i++) {
+                    total += array[i];
+                }
+                var average = total / array.length;
+                return average;
+            }
+            return -1;
+        };
         Board.prototype.drawAudioStream = function () {
             this.waveformAnalyser.getByteTimeDomainData(this.waveformDataArray);
             this.frequencyBarsAnalyser.getByteFrequencyData(this.frequencyBarsDataArray);
+            this.volumeAnalyser.getByteFrequencyData(this.volumeDataArray);
+            this.micVolume = this.getVolume(this.volumeDataArray);
             this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.canvasContext.lineWidth = 2;
             this.canvasContext.strokeStyle = 'rgb(0, 0, 0)';
@@ -251,3 +273,19 @@ var pxsim;
     pxsim.Board = Board;
 })(pxsim || (pxsim = {}));
 /// <reference path="sound.d.ts" />
+var pxsim;
+(function (pxsim) {
+    var sound;
+    (function (sound) {
+        /**
+         * Mic Volume
+         */
+        //% blockId=get_volume block="get mic volume"
+        //% blockNamespace=sound inBasicCategory=true
+        //% weight=100
+        function getVolume() {
+            return pxsim.board().micVolume;
+        }
+        sound.getVolume = getVolume;
+    })(sound = pxsim.sound || (pxsim.sound = {}));
+})(pxsim || (pxsim = {}));
