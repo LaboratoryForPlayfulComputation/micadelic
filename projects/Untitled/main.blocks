@@ -1,3 +1,24 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
   <variables></variables>
+  <block type="pxt-on-start" id="H@Ry*{w~D3Rb*6gXu_c!" x="0" y="0">
+    <statement name="HANDLER">
+      <block type="peer_block" id="#{*]kiWsXhzr;35?eo^A">
+        <value name="key">
+          <shadow type="text" id="s[P+@@|Iv1=Lbs=5U/Lp">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <value name="value">
+          <shadow type="math_number" id="Yj8e6JM2W^m.jYPtwF4T">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="id">
+          <shadow type="text" id="@lsb^*t)c._rlejf68T8">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+    </statement>
+  </block>
 </xml>

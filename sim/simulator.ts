@@ -1,6 +1,7 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 /// <reference path="../typings/globals/peerjs/index.d.ts" />
+/// <reference path="../typings/globals/webaudioapi/index.d.ts" />
 /// <reference path="sound.d.ts" />
 
 namespace pxsim {
@@ -44,7 +45,7 @@ namespace pxsim {
             this.waveformAnalyser = this.audioContext.createAnalyser();     
             this.waveformAnalyser.fftSize = 2048;
             this.frequencyBarsAnalyser = this.audioContext.createAnalyser();     
-            this.frequencyBarsAnalyser.fftSize = 256;            
+            this.frequencyBarsAnalyser.fftSize = 512;            
             this.waveformBufferLength = this.waveformAnalyser.frequencyBinCount;
             this.waveformDataArray = new Uint8Array(this.waveformBufferLength);  
             this.frequencyBarsBufferLength = this.frequencyBarsAnalyser.frequencyBinCount;
