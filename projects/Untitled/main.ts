@@ -1,5 +1,10 @@
+let peer_id = ""
 loops.forever(function () {
     if (sound.getVolume() > 75) {
-        messaging.send("jump", 0, "omz23na9nt000000")
+    	
+    }
+    if (sound.getPitch() == "C3") {
+    	
     }
 })
+peer_id = ""

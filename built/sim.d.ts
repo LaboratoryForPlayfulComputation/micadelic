@@ -85,4 +85,8 @@ declare namespace pxsim.sound {
      * Mic Volume
      */
     function getVolume(): number;
+    /**
+     * Pitch
+     */
+    function getPitch(): string;
 }

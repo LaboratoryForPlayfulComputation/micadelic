@@ -26,6 +26,7 @@
   "messaging.receive|block": "when I receive key %key|do",
   "messaging.send|block": "send key %key| value %value| to %id",
   "messaging|block": "messaging",
+  "sound.getPitch|block": "get pitch",
   "sound.getVolume|block": "get mic volume",
   "sound|block": "sound",
   "{id:category}Array": "Array",

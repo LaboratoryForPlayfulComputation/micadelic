@@ -13,4 +13,14 @@ namespace pxsim.sound {
         return board().micVolume;
     }
 
+    /**
+     * Pitch
+     */
+    //% blockId=get_pitch block="get pitch"
+    //% blockNamespace=sound inBasicCategory=true
+    //% weight=99    
+    export function getPitch() : string {
+        return analysis.detectPitch();
+    }
+
 }

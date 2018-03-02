@@ -60,6 +60,15 @@ declare namespace sound {
     //% shim=sound::getVolume
     function getVolume(): number;
 
+    /**
+     * Pitch
+     */
+    //% blockId=get_pitch block="get pitch"
+    //% blockNamespace=sound inBasicCategory=true
+    //% weight=99
+    //% shim=sound::getPitch
+    function getPitch(): string;
+
 }
 
 // Auto-generated. Do not edit. Really.

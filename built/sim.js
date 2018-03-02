@@ -816,5 +816,15 @@ var pxsim;
             return pxsim.board().micVolume;
         }
         sound.getVolume = getVolume;
+        /**
+         * Pitch
+         */
+        //% blockId=get_pitch block="get pitch"
+        //% blockNamespace=sound inBasicCategory=true
+        //% weight=99    
+        function getPitch() {
+            return pxsim.analysis.detectPitch();
+        }
+        sound.getPitch = getPitch;
     })(sound = pxsim.sound || (pxsim.sound = {}));
 })(pxsim || (pxsim = {}));

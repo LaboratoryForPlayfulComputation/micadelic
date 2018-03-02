@@ -2522,6 +2522,30 @@
    "parameters": [],
    "snippet": "getVolume()",
    "qName": "sound.getVolume"
+  },
+  "sound.getPitch": {
+   "kind": 3,
+   "namespace": "sound",
+   "name": "getPitch",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "get_pitch",
+    "block": "get pitch",
+    "blockNamespace": "sound",
+    "inBasicCategory": "true",
+    "weight": 99,
+    "shim": "sound::getPitch",
+    "paramHelp": {},
+    "jsDoc": "Pitch",
+    "_name": "getPitch"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [],
+   "snippet": "getPitch()",
+   "qName": "sound.getPitch"
   }
  }
 }

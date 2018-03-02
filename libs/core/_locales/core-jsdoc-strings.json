@@ -105,5 +105,6 @@
   "messaging.send": "Peer",
   "messaging.send|param|id": "The value of the marker",
   "sound": "Sound",
+  "sound.getPitch": "Pitch",
   "sound.getVolume": "Mic Volume"
 }
