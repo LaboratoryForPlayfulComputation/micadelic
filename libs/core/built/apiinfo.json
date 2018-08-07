@@ -2566,138 +2566,6 @@
    "snippet": "receive(\"\", function () {})",
    "qName": "messaging.receive"
   },
-  "samples": {
-   "kind": 5,
-   "namespace": "",
-   "name": "samples",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "color": "#f44242",
-    "icon": "",
-    "weight": 100,
-    "paramHelp": {},
-    "jsDoc": "Samples",
-    "block": "samples"
-   },
-   "pkg": null,
-   "retType": "",
-   "parameters": null,
-   "qName": "samples"
-  },
-  "samples.recordSample": {
-   "kind": 3,
-   "namespace": "samples",
-   "name": "recordSample",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "blockId": "record_sample",
-    "block": "record sample| %name| %sample",
-    "blockNamespace": "samples",
-    "inBasicCategory": "true",
-    "paramFieldEditor": {
-     "sample": "recorder"
-    },
-    "paramFieldEditorOptions": {
-     "sample": {
-      "onParentBlock": "true",
-      "decompileLiterals": "true"
-     }
-    },
-    "weight": 98,
-    "shim": "samples::recordSample",
-    "paramHelp": {},
-    "jsDoc": "Record sample",
-    "_name": "recordSample"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "name",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    },
-    {
-     "name": "sample",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "recordSample(\"\", \"\")",
-   "qName": "samples.recordSample"
-  },
-  "samples.playRecordedSample": {
-   "kind": 3,
-   "namespace": "samples",
-   "name": "playRecordedSample",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "blockId": "play_recorded_sample",
-    "block": "play sample| %name",
-    "blockNamespace": "samples",
-    "inBasicCategory": "true",
-    "weight": 97,
-    "shim": "samples::playRecordedSample",
-    "paramHelp": {},
-    "jsDoc": "Play recorded sample",
-    "_name": "playRecordedSample"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "name",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "playRecordedSample(\"\")",
-   "qName": "samples.playRecordedSample"
-  },
-  "samples.loopRecordedSample": {
-   "kind": 3,
-   "namespace": "samples",
-   "name": "loopRecordedSample",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "blockId": "loop_recorded_sample",
-    "block": "loop sample| %name",
-    "blockNamespace": "samples",
-    "inBasicCategory": "true",
-    "weight": 96,
-    "shim": "samples::loopRecordedSample",
-    "paramHelp": {},
-    "jsDoc": "Loop recorded sample",
-    "_name": "loopRecordedSample"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "name",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "loopRecordedSample(\"\")",
-   "qName": "samples.loopRecordedSample"
-  },
   "sound": {
    "kind": 5,
    "namespace": "",
@@ -2765,6 +2633,118 @@
    "parameters": [],
    "snippet": "getPitch()",
    "qName": "sound.getPitch"
+  },
+  "sound.recordSample": {
+   "kind": 3,
+   "namespace": "sound",
+   "name": "recordSample",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "record_sample",
+    "block": "record sample| %name| %sample",
+    "blockNamespace": "samples",
+    "inBasicCategory": "true",
+    "paramFieldEditor": {
+     "sample": "recorder"
+    },
+    "paramFieldEditorOptions": {
+     "sample": {
+      "onParentBlock": "true",
+      "decompileLiterals": "true"
+     }
+    },
+    "weight": 98,
+    "shim": "sound::recordSample",
+    "paramHelp": {},
+    "jsDoc": "Record sample",
+    "_name": "recordSample"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "name",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "sample",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "recordSample(\"\", \"\")",
+   "qName": "sound.recordSample"
+  },
+  "sound.playRecordedSample": {
+   "kind": 3,
+   "namespace": "sound",
+   "name": "playRecordedSample",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "play_recorded_sample",
+    "block": "play sample| %name",
+    "blockNamespace": "samples",
+    "inBasicCategory": "true",
+    "weight": 97,
+    "shim": "sound::playRecordedSample",
+    "paramHelp": {},
+    "jsDoc": "Play recorded sample",
+    "_name": "playRecordedSample"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "name",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "playRecordedSample(\"\")",
+   "qName": "sound.playRecordedSample"
+  },
+  "sound.loopRecordedSample": {
+   "kind": 3,
+   "namespace": "sound",
+   "name": "loopRecordedSample",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "loop_recorded_sample",
+    "block": "loop sample| %name",
+    "blockNamespace": "samples",
+    "inBasicCategory": "true",
+    "weight": 96,
+    "shim": "sound::loopRecordedSample",
+    "paramHelp": {},
+    "jsDoc": "Loop recorded sample",
+    "_name": "loopRecordedSample"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "name",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "loopRecordedSample(\"\")",
+   "qName": "sound.loopRecordedSample"
   }
  },
  "jres": {}

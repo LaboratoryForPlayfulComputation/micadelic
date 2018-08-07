@@ -107,11 +107,10 @@
   "messaging.send": "Peer",
   "messaging.send|param|id": "The value of the marker",
   "parseInt": "Convert a string to an integer.",
-  "samples": "Samples",
-  "samples.loopRecordedSample": "Loop recorded sample",
-  "samples.playRecordedSample": "Play recorded sample",
-  "samples.recordSample": "Record sample",
   "sound": "Sound",
   "sound.getPitch": "Pitch",
-  "sound.getVolume": "Mic Volume"
+  "sound.getVolume": "Mic Volume",
+  "sound.loopRecordedSample": "Loop recorded sample",
+  "sound.playRecordedSample": "Play recorded sample",
+  "sound.recordSample": "Record sample"
 }
