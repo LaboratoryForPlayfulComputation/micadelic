@@ -2644,7 +2644,7 @@
     "_source": null,
     "blockId": "record_sample",
     "block": "record sample| %name| %sample",
-    "blockNamespace": "samples",
+    "blockNamespace": "sound",
     "inBasicCategory": "true",
     "paramFieldEditor": {
      "sample": "recorder"
@@ -2692,7 +2692,7 @@
     "_source": null,
     "blockId": "play_recorded_sample",
     "block": "play sample| %name",
-    "blockNamespace": "samples",
+    "blockNamespace": "sound",
     "inBasicCategory": "true",
     "weight": 97,
     "shim": "sound::playRecordedSample",
@@ -2724,7 +2724,7 @@
     "_source": null,
     "blockId": "loop_recorded_sample",
     "block": "loop sample| %name",
-    "blockNamespace": "samples",
+    "blockNamespace": "sound",
     "inBasicCategory": "true",
     "weight": 96,
     "shim": "sound::loopRecordedSample",
