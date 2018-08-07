@@ -675,42 +675,6 @@ var pxsim;
         ];
     })(notes = pxsim.notes || (pxsim.notes = {}));
 })(pxsim || (pxsim = {}));
-var pxsim;
-(function (pxsim) {
-    var samples;
-    (function (samples) {
-        /**
-         * Record sample
-         */
-        //% blockId=record_sample block="record sample| %name| %sample"
-        //% blockNamespace=samples inBasicCategory=true
-        //% sample.fieldEditor="recorder"
-        //% sample.fieldOptions.onParentBlock=true
-        //% sample.fieldOptions.decompileLiterals=true    
-        //% weight=98 
-        function recordSample(name, sample) {
-        }
-        samples.recordSample = recordSample;
-        /**
-         * Play recorded sample
-         */
-        //% blockId=play_recorded_sample block="play sample| %name"
-        //% blockNamespace=samples inBasicCategory=true
-        //% weight=97
-        function playRecordedSample(name) {
-        }
-        samples.playRecordedSample = playRecordedSample;
-        /**
-         * Loop recorded sample
-         */
-        //% blockId=loop_recorded_sample block="loop sample| %name"
-        //% blockNamespace=samples inBasicCategory=true
-        //% weight=96
-        function loopRecordedSample(name) {
-        }
-        samples.loopRecordedSample = loopRecordedSample;
-    })(samples = pxsim.samples || (pxsim.samples = {}));
-})(pxsim || (pxsim = {}));
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 /// <reference path="../typings/globals/peerjs/index.d.ts" />
@@ -898,5 +862,35 @@ var pxsim;
             return pxsim.analysis.detectPitch();
         }
         sound.getPitch = getPitch;
+        /**
+     * Record sample
+     */
+        //% blockId=record_sample block="record sample| %name| %sample"
+        //% blockNamespace=samples inBasicCategory=true
+        //% sample.fieldEditor="recorder"
+        //% sample.fieldOptions.onParentBlock=true
+        //% sample.fieldOptions.decompileLiterals=true    
+        //% weight=98 
+        function recordSample(name, sample) {
+        }
+        sound.recordSample = recordSample;
+        /**
+         * Play recorded sample
+         */
+        //% blockId=play_recorded_sample block="play sample| %name"
+        //% blockNamespace=samples inBasicCategory=true
+        //% weight=97
+        function playRecordedSample(name) {
+        }
+        sound.playRecordedSample = playRecordedSample;
+        /**
+         * Loop recorded sample
+         */
+        //% blockId=loop_recorded_sample block="loop sample| %name"
+        //% blockNamespace=samples inBasicCategory=true
+        //% weight=96
+        function loopRecordedSample(name) {
+        }
+        sound.loopRecordedSample = loopRecordedSample;
     })(sound = pxsim.sound || (pxsim.sound = {}));
 })(pxsim || (pxsim = {}));
