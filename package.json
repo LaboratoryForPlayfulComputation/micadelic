@@ -1,7 +1,7 @@
 {
-  "name": "pxt-sample",
+  "name": "Micadelic",
   "version": "1.0.17",
-  "description": "sample target for PXT",
+  "description": "A MakeCode editor for working with audio input and output.",
   "keywords": [
     "JavaScript",
     "education",
@@ -9,11 +9,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Microsoft/pxt-sample.git"
+    "url": "git+https://laboratoryforplayfulcomputation.github.io/micadelic/"
   },
   "author": "",
   "license": "MIT",
-  "homepage": "https://github.com/Microsoft/pxt-sample#readme",
+  "homepage": "https://laboratoryforplayfulcomputation.github.io/micadelic/#readme",
   "files": [
     "README.md",
     "pxtarget.json",

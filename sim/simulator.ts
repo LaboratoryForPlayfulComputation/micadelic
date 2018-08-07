@@ -25,11 +25,12 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public bus: EventBus;
+        public bus : EventBus;
         public canvas : HTMLCanvasElement;
         public canvasContext : CanvasRenderingContext2D;
         public audioContext : AudioContext;
         public source : any;
+        public recorder : any;
         public waveformAnalyser : AnalyserNode;
         public waveformBufferLength : number;
         public waveformDataArray : Uint8Array;
@@ -61,8 +62,8 @@ namespace pxsim {
             this.volumeAnalyser = this.audioContext.createAnalyser();
             this.volumeAnalyser.fftSize = 512;
             this.volumeBuggerLength = this.volumeAnalyser.frequencyBinCount;
-            this.volumeDataArray =  new Uint8Array(this.volumeBuggerLength);        
-
+            this.volumeDataArray =  new Uint8Array(this.volumeBuggerLength);    
+            
             this.notesArray = notes.notesArray;
 
             this.initAudioStream();
@@ -88,6 +89,19 @@ namespace pxsim {
             if ((navigator as any).getUserMedia) {
                 (navigator as any).getUserMedia({audio: true}, function (stream: MediaStream) {
                     if (!self.source){
+                        self.recorder = new MediaRecorder(stream) as any;
+                        self.recorder.onstop = function(e: any) {console.log("done recording");}
+                        self.recorder.ondataavailable = function(e: any) {
+                            console.log(e.data);
+                            var audio = document.getElementById('audio');
+                            // use the blob from the MediaRecorder as source for the audio tag
+                            (audio as any).src = URL.createObjectURL(e.data);
+                            (audio as any).play();
+                        }
+                        let startButton = parent.document.getElementById("startButton");
+                        let stopButton = parent.document.getElementById("stopButton");
+                        startButton.onclick = function(){ self.startRecording() };
+                        stopButton.onclick = function(){ self.stopRecording() };
                         self.source = self.audioContext.createMediaStreamSource(stream);
                         self.source.connect(self.waveformAnalyser);
                         self.source.connect(self.frequencyBarsAnalyser);
@@ -120,8 +134,6 @@ namespace pxsim {
             this.frequencyBarsAnalyser.getByteFrequencyData(this.frequencyBarsDataArray);
             this.volumeAnalyser.getByteFrequencyData(this.volumeDataArray);
             this.micVolume = this.getVolume(this.volumeDataArray);
-
-            console.log(analysis.detectPitch());
 
             this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.canvasContext.lineWidth = 2;
@@ -162,5 +174,27 @@ namespace pxsim {
             requestAnimationFrame(this.drawAudioStream.bind(this));
         }        
         
+
+        startRecording(){
+        if (this.recorder.state == "inactive") // inactive, recording, or paused
+            this.recorder.start();
+        }
+
+        pauseRecording(){
+        if (this.recorder.state == "recording")
+            this.recorder.pause();
+        }
+
+        resumeRecording(){
+        if (this.recorder.state == "paused")
+            this.recorder.resume();
+        }
+
+        stopRecording(){
+            if (this.recorder.state != "inactive")
+                this.recorder.stop();
+        }
+
     }
+
 }

@@ -19,7 +19,7 @@
 
 <body>
     <canvas id="visualizer-canvas" style="padding: 0px; width:100%; height:100%;"></canvas>
-
+    <audio id="audio" controls></audio>
     <script type="text/javascript">
         /* Code for putting user ID box outside of sim frame */
         let sims = parent.document.getElementById("simulators");
@@ -38,6 +38,16 @@
         fieldSet.appendChild(userIdInput);
         userIdForm.appendChild(fieldSet);
         sims.appendChild(userIdForm);
+
+        let startButton = parent.document.createElement("BUTTON");
+        startButton.innerHTML = 'start rec';
+        startButton.id = 'startButton';
+        let stopButton = parent.document.createElement("BUTTON");
+        stopButton.innerHTML = 'stop rec';
+        stopButton.id = 'stopButton';
+        sims.appendChild(startButton);
+        sims.appendChild(stopButton);
+        
     </script>
 
 </body>

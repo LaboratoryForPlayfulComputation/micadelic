@@ -58,6 +58,7 @@
         "monacoColors": {
             "editor.background": "#ecf0f1"
         },
+        "extendEditor": true,
         "blockColors": {
             "loops": "#30ad14",
             "logic": "#44abff",

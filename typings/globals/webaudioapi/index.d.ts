@@ -23,6 +23,14 @@ interface Window {
     AudioContext: AudioContextConstructor;
 }
 
+declare class MediaRecorder {
+    constructor(options: MediaStream);
+    start(): void;
+    stop(): void;
+    pause(): void;
+    resume(): void;
+}
+
 interface MediaStream {
 }
 

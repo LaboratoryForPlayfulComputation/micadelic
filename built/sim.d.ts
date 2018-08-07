@@ -47,6 +47,20 @@ declare namespace pxsim.notes {
         "frequency": number;
     }[];
 }
+declare namespace pxsim.samples {
+    /**
+     * Record sample
+     */
+    function recordSample(name: string, sample: string): void;
+    /**
+     * Play recorded sample
+     */
+    function playRecordedSample(name: string): void;
+    /**
+     * Loop recorded sample
+     */
+    function loopRecordedSample(name: string): void;
+}
 declare namespace pxsim {
     /**
      * Gets the current 'board', eg. program state.
@@ -62,6 +76,7 @@ declare namespace pxsim {
         canvasContext: CanvasRenderingContext2D;
         audioContext: AudioContext;
         source: any;
+        recorder: any;
         waveformAnalyser: AnalyserNode;
         waveformBufferLength: number;
         waveformDataArray: Uint8Array;
@@ -78,6 +93,10 @@ declare namespace pxsim {
         initAudioStream(): void;
         getVolume(array: Uint8Array): number;
         drawAudioStream(): void;
+        startRecording(): void;
+        pauseRecording(): void;
+        resumeRecording(): void;
+        stopRecording(): void;
     }
 }
 declare namespace pxsim.sound {

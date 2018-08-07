@@ -2,7 +2,6 @@
 
 namespace pxsim.sound {
 
-
     /**
      * Mic Volume
      */

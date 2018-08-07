@@ -1,5 +1,6 @@
 pxsim.noRefCounting();
 pxsim.enableFloatingPoint();
+pxsim.setConfigData({}, {});
 
 
 var _main___P1 = entryPoint = function (s) {
