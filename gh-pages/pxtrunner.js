@@ -184,7 +184,7 @@ var pxt;
             var $menu = $h.find('.right.menu');
             var theme = pxt.appTarget.appTheme || {};
             if (woptions.showEdit && !theme.hideDocsEdit) {
-                var $editBtn = $('<a class="item"><i aria-label="edit" class="edit icon"></i></a>').click(function () {
+                var $editBtn = $("<a class=\"item\" role=\"button\" tabindex=\"0\" aria-label=\"" + lf("edit") + "\"><i role=\"presentation\" aria-hidden=\"true\" class=\"edit icon\"></i></a>").click(function () {
                     decompileResult.package.compressToFileAsync(options.showJavaScript ? pxt.JAVASCRIPT_PROJECT_NAME : pxt.BLOCKS_PROJECT_NAME)
                         .done(function (buf) { return window.open(getEditUrl(options) + "/#project:" + window.btoa(pxt.Util.uint8ArrayToString(buf)), 'pxt'); });
                 });
@@ -195,7 +195,7 @@ var pxt;
                 $c.append($js);
                 // js menu
                 if ($svg) {
-                    var $svgBtn = $('<a class="item blocks"><i aria-label="Blocks" class="puzzle icon"></i></a>').click(function () {
+                    var $svgBtn = $("<a class=\"item blocks\" role=\"button\" tabindex=\"0\" aria-label=\"" + lf("Blocks") + "\"><i role=\"presentation\" aria-hidden=\"true\" class=\"puzzle icon\"></i></a>").click(function () {
                         if ($c.find('.blocks')[0])
                             $c.find('.blocks').remove();
                         else {
@@ -216,7 +216,7 @@ var pxt;
                     appendJs($c, $js, woptions);
                 }
                 else {
-                    var $jsBtn = $('<a class="item js"><i aria-label="JavaScript" class="align left icon"></i></a>').click(function () {
+                    var $jsBtn = $("<a class=\"item js\" role=\"button\" tabindex=\"0\" aria-label=\"" + lf("JavaScript") + "\"><i role=\"presentation\" aria-hidden=\"true\" class=\"align left icon\"></i></a>").click(function () {
                         if ($c.find('.js')[0])
                             $c.find('.js').remove();
                         else {
@@ -231,7 +231,7 @@ var pxt;
             }
             // runner menu
             if (woptions.run && !theme.hideDocsSimulator) {
-                var $runBtn = $('<a class="item"><i aria-label="run" class="play icon"></i></a>').click(function () {
+                var $runBtn = $("<a class=\"item\" role=\"button\" tabindex=\"0\" aria-label=\"" + lf("run") + "\"><i role=\"presentation\" aria-hidden=\"true\" class=\"play icon\"></i></a>").click(function () {
                     if ($c.find('.sim')[0])
                         $c.find('.sim').remove(); // remove previous simulators
                     else {
@@ -245,7 +245,7 @@ var pxt;
                 $menu.append($runBtn);
             }
             if (woptions.hexname && woptions.hex) {
-                var $hexBtn = $('<a class="item"><i aria-label="download" class="download icon"></i></a>').click(function () {
+                var $hexBtn = $("<a class=\"item\" role=\"button\" tabindex=\"0\" aria-label=\"" + lf("download") + "\"><i role=\"presentation\" aria-hidden=\"true\" class=\"download icon\"></i></a>").click(function () {
                     pxt.BrowserUtils.browserDownloadBinText(woptions.hex, woptions.hexname, pxt.appTarget.compile.hexMimeType);
                 });
                 $menu.append($hexBtn);
@@ -261,10 +261,9 @@ var pxt;
                 pxt.debug("Downloading screenshot for: " + woptions.hexname);
                 var filename_1 = woptions.hexname.substr(0, woptions.hexname.lastIndexOf('.'));
                 var fontSize = window.getComputedStyle($svg.get(0).getElementsByClassName("blocklyText").item(0)).getPropertyValue("font-size");
-                var customCss = "\n.blocklyMainBackground {\n    stroke:none !important;\n}\n\n.blocklyText {\n    font-family:'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;\n    font-size:" + fontSize + " !important;\n}\n\n.blocklyCheckbox,\n.blocklyLed {\n    fill: #ff3030 !important;\n    text-shadow: 0px 0px 6px #f00;\n    font-size: 17pt !important;\n}";
                 var svgElement = $svg.get(0);
                 var bbox = $svg.get(0).getBoundingClientRect();
-                pxt.blocks.layout.svgToPngAsync(svgElement, customCss, 0, 0, bbox.width, bbox.height, 4)
+                pxt.blocks.layout.svgToPngAsync(svgElement, 0, 0, bbox.width, bbox.height, 4)
                     .done(function (uri) {
                     if (uri)
                         pxt.BrowserUtils.browserDownloadDataUri(uri, (name || (pxt.appTarget.nickname || pxt.appTarget.id) + "-" + filename_1) + ".png");
@@ -354,18 +353,6 @@ var pxt;
                 fillWithWidget(options, c, js, s, r, { showJs: true, hideGutter: true });
             }, { package: options.package, snippetMode: true });
         }
-        function renderShuffleAsync(options) {
-            return renderNextSnippetAsync(options.shuffleClass, function (c, r) {
-                var s = r.blocksSvg;
-                if (options.snippetReplaceParent)
-                    c = c.parent();
-                var segment = $('<div class="ui segment"/>').append(s);
-                c.replaceWith(segment);
-            }, {
-                emPixels: 14, layout: pxt.blocks.BlockLayout.Shuffle, aspectRatio: options.blocksAspectRatio,
-                package: options.package
-            });
-        }
         function renderBlocksAsync(options) {
             return renderNextSnippetAsync(options.blocksClass, function (c, r) {
                 var s = r.blocksSvg;
@@ -374,6 +361,43 @@ var pxt;
                 var segment = $('<div class="ui segment"/>').append(s);
                 c.replaceWith(segment);
             }, { package: options.package, snippetMode: true });
+        }
+        function renderNamespaces(options) {
+            return pxt.runner.decompileToBlocksAsync('', options)
+                .then(function (r) {
+                var res = {};
+                var info = r.compileBlocks.blocksInfo;
+                info.blocks.forEach(function (fn) {
+                    var ns = (fn.attributes.blockNamespace || fn.namespace).split('.')[0];
+                    if (!res[ns]) {
+                        var nsn = info.apis.byQName[ns];
+                        if (nsn && nsn.attributes.color)
+                            res[ns] = nsn.attributes.color;
+                    }
+                });
+                var nsStyleBuffer = '';
+                Object.keys(res).forEach(function (ns) {
+                    var color = res[ns] || '#dddddd';
+                    nsStyleBuffer += "\n                        span.docs." + ns.toLowerCase() + " {\n                            background-color: " + color + " !important;\n                            border-color: " + Blockly.PXTUtils.fadeColour(color, 0.2, true) + " !important;\n                        }\n                    ";
+                });
+                return nsStyleBuffer;
+            })
+                .then(function (nsStyleBuffer) {
+                Object.keys(pxt.blocks.blockColors).forEach(function (ns) {
+                    var color = pxt.blocks.blockColors[ns];
+                    nsStyleBuffer += "\n                        span.docs." + ns.toLowerCase() + " {\n                            background-color: " + color + " !important;\n                            border-color: " + Blockly.PXTUtils.fadeColour(color, 0.2, true) + " !important;\n                        }\n                    ";
+                });
+                return nsStyleBuffer;
+            })
+                .then(function (nsStyleBuffer) {
+                // Inject css
+                var nsStyle = document.createElement('style');
+                nsStyle.id = "namespaceColors";
+                nsStyle.type = 'text/css';
+                var head = document.head || document.getElementsByTagName('head')[0];
+                head.appendChild(nsStyle);
+                nsStyle.appendChild(document.createTextNode(nsStyleBuffer));
+            });
         }
         function renderInlineBlocksAsync(options) {
             options = pxt.Util.clone(options);
@@ -388,8 +412,10 @@ var pxt;
                 var text = $el.text();
                 var mbtn = /^(\|+)([^\|]+)\|+$/.exec(text);
                 if (mbtn) {
-                    var lev = mbtn[1].length == 1 ? "docs inlinebutton" : "docs inlineblock";
-                    var txt = mbtn[2];
+                    var mtxt = /^(([^\:\.]*?)[\:\.])?(.*)$/.exec(mbtn[2]);
+                    var ns = mtxt[2] ? mtxt[2].trim().toLowerCase() : '';
+                    var lev = mbtn[1].length == 1 ? "docs inlinebutton " + ns : "docs inlineblock " + ns;
+                    var txt = mtxt[3].trim();
                     $el.replaceWith($("<span class=\"" + lev + "\"/>").text(pxt.U.rlf(txt)));
                     return renderNextAsync();
                 }
@@ -448,6 +474,7 @@ var pxt;
                 var file = r.compileJS.ast.getSourceFile("main.ts");
                 var stmts = file.statements.slice(0).reverse();
                 var ul = $('<div />').addClass('ui cards');
+                ul.attr("role", "listbox");
                 var addItem = function (card) {
                     if (!card)
                         return;
@@ -582,6 +609,7 @@ var pxt;
             else {
                 var cd_1 = document.createElement("div");
                 cd_1.className = "ui cards";
+                cd_1.setAttribute("role", "listbox");
                 cards.forEach(function (card) { return cd_1.appendChild(pxt.docs.codeCard.render(card, options)); });
                 c.replaceWith(cd_1);
             }
@@ -674,8 +702,8 @@ var pxt;
             }
             renderTypeScript(options);
             return Promise.resolve()
+                .then(function () { return renderNamespaces(options); })
                 .then(function () { return renderInlineBlocksAsync(options); })
-                .then(function () { return renderShuffleAsync(options); })
                 .then(function () { return renderLinksAsync(options, options.linksClass, options.snippetReplaceParent, false); })
                 .then(function () { return renderLinksAsync(options, options.namespacesClass, options.snippetReplaceParent, true); })
                 .then(function () { return renderSignaturesAsync(options); })
@@ -820,7 +848,7 @@ var pxt;
             var versions = pxt.appTarget.versions;
             patchSemantic();
             var cfg = pxt.webConfig;
-            return pxt.Util.updateLocalizationAsync(cfg.commitCdnUrl, lang, versions ? versions.pxtCrowdinBranch : "", live)
+            return pxt.Util.updateLocalizationAsync(pxt.appTarget.id, true, cfg.commitCdnUrl, lang, versions ? versions.pxtCrowdinBranch : "", versions ? versions.targetCrowdinBranch : "", live)
                 .then(function () {
                 runner.mainPkg = new pxt.MainPackage(new Host());
             });
@@ -931,7 +959,8 @@ var pxt;
                         boardDefinition: board,
                         parts: parts,
                         fnArgs: fnArgs,
-                        cdnUrl: pxt.webConfig.commitCdnUrl
+                        cdnUrl: pxt.webConfig.commitCdnUrl,
+                        localizedStrings: pxt.Util.getLocalizedStrings()
                     };
                     if (pxt.appTarget.simulator)
                         runOptions.aspectRatio = parts.length && pxt.appTarget.simulator.partsAspectRatio
@@ -954,7 +983,7 @@ var pxt;
             if (locale != runner.editorLocale) {
                 var localeLiveRx = /^live-/;
                 runner.editorLocale = locale;
-                return pxt.Util.updateLocalizationAsync(pxt.webConfig.commitCdnUrl, runner.editorLocale.replace(localeLiveRx, ''), pxt.appTarget.versions.pxtCrowdinBranch, localeLiveRx.test(runner.editorLocale));
+                return pxt.Util.updateLocalizationAsync(pxt.appTarget.id, true, pxt.webConfig.commitCdnUrl, runner.editorLocale.replace(localeLiveRx, ''), pxt.appTarget.versions.pxtCrowdinBranch, pxt.appTarget.versions.targetCrowdinBranch, localeLiveRx.test(runner.editorLocale));
             }
             return Promise.resolve();
         }
@@ -992,6 +1021,46 @@ var pxt;
                     break;
             }
         }
+        function startRenderServer() {
+            pxt.tickEvent("renderer.ready");
+            var jobQueue = [];
+            var jobPromise = undefined;
+            function consumeQueue() {
+                if (jobPromise)
+                    return; // other worker already in action
+                var msg = jobQueue.shift();
+                if (!msg)
+                    return; // no more work
+                jobPromise = runner.decompileToBlocksAsync(msg.code, msg.options)
+                    .then(function (result) { return result.blocksSvg ? pxt.blocks.layout.blocklyToSvgAsync(result.blocksSvg, 0, 0, result.blocksSvg.viewBox.baseVal.width, result.blocksSvg.viewBox.baseVal.height) : undefined; })
+                    .then(function (res) {
+                    window.parent.postMessage({
+                        source: "makecode",
+                        type: "renderblocks",
+                        id: msg.id,
+                        width: res ? res.width : undefined,
+                        height: res ? res.height : undefined,
+                        svg: res ? res.svg : undefined,
+                        uri: res ? res.xml : undefined
+                    }, "*");
+                    jobPromise = undefined;
+                    consumeQueue();
+                });
+            }
+            // notify parent that render engine is loaded
+            window.addEventListener("message", function (ev) {
+                var msg = ev.data;
+                if (msg.type == "renderblocks") {
+                    jobQueue.push(msg);
+                    consumeQueue();
+                }
+            }, false);
+            window.parent.postMessage({
+                source: "makecode",
+                type: "renderready"
+            }, "*");
+        }
+        runner.startRenderServer = startRenderServer;
         function startDocsServer(loading, content) {
             function render(doctype, src) {
                 pxt.debug("rendering " + doctype);
@@ -1005,6 +1074,7 @@ var pxt;
                         case "tutorial":
                             var body = $('body');
                             body.addClass('tutorial');
+                            $(loading).hide();
                             return renderTutorialAsync(content, src);
                         case "book":
                             return renderBookAsync(content, src);
@@ -1124,7 +1194,6 @@ var pxt;
                 snippetClass: 'lang-blocks',
                 signatureClass: 'lang-sig',
                 blocksClass: 'lang-block',
-                shuffleClass: 'lang-shuffle',
                 simulatorClass: 'lang-sim',
                 linksClass: 'lang-cards',
                 namespacesClass: 'lang-namespaces',
@@ -1155,27 +1224,37 @@ var pxt;
             }
             return initPromise.then(function () { return pxt.Cloud.downloadMarkdownAsync(tutorialid, runner.editorLocale, pxt.Util.localizeLive); })
                 .then(function (tutorialmd) {
-                var steps = tutorialmd.split(/^###[^#].*$/gmi);
+                var steps = tutorialmd.split(/^##[^#].*$/gmi);
+                var newAuthoring = true;
+                if (steps.length <= 1) {
+                    // try again, using old logic.
+                    steps = tutorialmd.split(/^###[^#].*$/gmi);
+                    newAuthoring = false;
+                }
+                if (steps[0].indexOf("# Not found") == 0) {
+                    pxt.log("Tutorial not found: " + tutorialid);
+                    throw new Error("Tutorial not found: " + tutorialid);
+                }
                 var stepInfo = [];
-                tutorialmd.replace(/###[^#](.*)/g, function (f, s) {
+                tutorialmd.replace(newAuthoring ? /^##[^#](.*)$/gmi : /^###[^#](.*)$/gmi, function (f, s) {
                     var info = {
-                        fullscreen: s.indexOf('@fullscreen') > -1,
-                        hasHint: s.indexOf('@nohint') < 0
+                        fullscreen: s.indexOf('@fullscreen') > -1
                     };
                     stepInfo.push(info);
                     return "";
                 });
                 if (steps.length < 1)
-                    return;
+                    return Promise.resolve();
                 var options = steps[0];
                 steps = steps.slice(1, steps.length); // Remove tutorial title
                 // Extract toolbox block ids
                 var toolboxSubset = {};
                 return Promise.resolve()
+                    .then(function () { return renderMarkdownAsync(content, tutorialmd, { tutorial: true }); })
                     .then(function () {
                     var uptoSteps = steps.join();
                     uptoSteps = uptoSteps.replace(/((?!.)\s)+/g, "\n");
-                    var regex = /```(sim|block|blocks|shuffle|filterblocks)\n([\s\S]*?)\n```/gmi;
+                    var regex = /```(sim|block|blocks|filterblocks)\s*\n([\s\S]*?)\n```/gmi;
                     var match;
                     var code = '';
                     while ((match = regex.exec(uptoSteps)) != null) {
@@ -1197,18 +1276,22 @@ var pxt;
                                     toolboxSubset[blk.type] = 1;
                                 }
                             }
+                        }).catch(function () {
+                            pxt.log("Failed to decompile tutorial: " + tutorialid);
+                            throw new Error("Failed to decompile tutorial: " + tutorialid);
                         });
                     }
-                    return;
+                    return Promise.resolve();
                 })
-                    .then(function () { return renderMarkdownAsync(content, tutorialmd, { tutorial: true }); })
                     .then(function () {
                     // Split the steps
-                    var stepcontent = content.innerHTML.split(/<h3.*\/h3>/gi);
+                    var stepcontent = content.innerHTML.split(newAuthoring ? /<h2.*\/h2>/gi : /<h3.*\/h3>/gi);
                     for (var i = 0; i < stepcontent.length - 1; i++) {
                         content.innerHTML = stepcontent[i + 1];
                         stepInfo[i].headerContent = "<p>" + content.firstElementChild.innerHTML + "</p>";
+                        stepInfo[i].ariaLabel = content.firstElementChild.textContent;
                         stepInfo[i].content = stepcontent[i + 1];
+                        stepInfo[i].hasHint = content.childElementCount > 1;
                     }
                     content.innerHTML = '';
                     // return the result
@@ -1220,6 +1303,16 @@ var pxt;
                         toolboxSubset: toolboxSubset
                     }, "*");
                 });
+            })
+                .catch(function (e) {
+                pxt.log("Failed to load tutorial: " + tutorialid);
+                pxt.log(e.message);
+                // return the result
+                window.parent.postMessage({
+                    type: "tutorial",
+                    tutorial: tutorialid,
+                    subtype: "error"
+                }, "*");
             });
         }
         runner.renderTutorialAsync = renderTutorialAsync;
@@ -1236,7 +1329,7 @@ var pxt;
                 if (!resp.success)
                     return Promise.resolve({ package: runner.mainPkg, compileJS: resp });
                 // decompile to blocks
-                var apis = pxtc.getApiInfo(resp.ast);
+                var apis = pxtc.getApiInfo(opts, resp.ast);
                 return ts.pxtc.localizeApisAsync(apis, runner.mainPkg)
                     .then(function () {
                     var blocksInfo = pxtc.getBlocksInfo(apis);

@@ -168,7 +168,12 @@ var pxsim;
                 debug: 3 });
             /* Received user ID from server */
             if (peer)
-                peer.on('open', function (id) { updateUserId(id); });
+                peer.on('open', function (id) {
+                    if (id)
+                        updateUserId(id);
+                    else if (peer.id)
+                        updateUserId(peer.id);
+                });
             else
                 initializePeer();
             if (peer)
@@ -176,7 +181,10 @@ var pxsim;
             else
                 initializePeer();
             if (peer)
-                peer.on('disconnected', function () { });
+                peer.on('disconnected', function () {
+                    pxsim.console.log("peer disconnecteeeeeed from server");
+                    peer.reconnect();
+                });
             else
                 initializePeer();
             if (peer)
@@ -667,6 +675,42 @@ var pxsim;
         ];
     })(notes = pxsim.notes || (pxsim.notes = {}));
 })(pxsim || (pxsim = {}));
+var pxsim;
+(function (pxsim) {
+    var samples;
+    (function (samples) {
+        /**
+         * Record sample
+         */
+        //% blockId=record_sample block="record sample| %name| %sample"
+        //% blockNamespace=samples inBasicCategory=true
+        //% sample.fieldEditor="recorder"
+        //% sample.fieldOptions.onParentBlock=true
+        //% sample.fieldOptions.decompileLiterals=true    
+        //% weight=98 
+        function recordSample(name, sample) {
+        }
+        samples.recordSample = recordSample;
+        /**
+         * Play recorded sample
+         */
+        //% blockId=play_recorded_sample block="play sample| %name"
+        //% blockNamespace=samples inBasicCategory=true
+        //% weight=97
+        function playRecordedSample(name) {
+        }
+        samples.playRecordedSample = playRecordedSample;
+        /**
+         * Loop recorded sample
+         */
+        //% blockId=loop_recorded_sample block="loop sample| %name"
+        //% blockNamespace=samples inBasicCategory=true
+        //% weight=96
+        function loopRecordedSample(name) {
+        }
+        samples.loopRecordedSample = loopRecordedSample;
+    })(samples = pxsim.samples || (pxsim.samples = {}));
+})(pxsim || (pxsim = {}));
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 /// <reference path="../typings/globals/peerjs/index.d.ts" />
@@ -731,6 +775,19 @@ var pxsim;
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true }, function (stream) {
                     if (!self.source) {
+                        self.recorder = new MediaRecorder(stream);
+                        self.recorder.onstop = function (e) { pxsim.console.log("done recording"); };
+                        self.recorder.ondataavailable = function (e) {
+                            pxsim.console.log(e.data);
+                            var audio = document.getElementById('audio');
+                            // use the blob from the MediaRecorder as source for the audio tag
+                            audio.src = URL.createObjectURL(e.data);
+                            audio.play();
+                        };
+                        var startButton = parent.document.getElementById("startButton");
+                        var stopButton = parent.document.getElementById("stopButton");
+                        startButton.onclick = function () { self.startRecording(); };
+                        stopButton.onclick = function () { self.stopRecording(); };
                         self.source = self.audioContext.createMediaStreamSource(stream);
                         self.source.connect(self.waveformAnalyser);
                         self.source.connect(self.frequencyBarsAnalyser);
@@ -762,7 +819,6 @@ var pxsim;
             this.frequencyBarsAnalyser.getByteFrequencyData(this.frequencyBarsDataArray);
             this.volumeAnalyser.getByteFrequencyData(this.volumeDataArray);
             this.micVolume = this.getVolume(this.volumeDataArray);
-            pxsim.console.log(pxsim.analysis.detectPitch());
             this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.canvasContext.lineWidth = 2;
             this.canvasContext.strokeStyle = 'rgb(0, 0, 0)';
@@ -796,6 +852,22 @@ var pxsim;
             this.canvasContext.lineTo(this.canvas.width, this.canvas.height / 2);
             this.canvasContext.stroke();
             requestAnimationFrame(this.drawAudioStream.bind(this));
+        };
+        Board.prototype.startRecording = function () {
+            if (this.recorder.state == "inactive")
+                this.recorder.start();
+        };
+        Board.prototype.pauseRecording = function () {
+            if (this.recorder.state == "recording")
+                this.recorder.pause();
+        };
+        Board.prototype.resumeRecording = function () {
+            if (this.recorder.state == "paused")
+                this.recorder.resume();
+        };
+        Board.prototype.stopRecording = function () {
+            if (this.recorder.state != "inactive")
+                this.recorder.stop();
         };
         return Board;
     }(pxsim.BaseBoard));

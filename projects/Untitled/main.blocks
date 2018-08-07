@@ -3,7 +3,7 @@
     <variable type="" id="-n%R$I8!)I47A5uRs+(U">peer_id</variable>
     <variable type="" id="t*+-@;~dg/9jb]2CJF{,">item</variable>
   </variables>
-  <block type="loop_recorded_sample" id="Uqj@~DMVANdh+j]jFEAB" disabled="true" x="0" y="0">
+  <block type="loop_recorded_sample" id="Uqj@~DMVANdh+j]jFEAB" disabled="true" x="20" y="20">
     <value name="name">
       <shadow type="text" id="@isjm$HqZGl+c6_nYQ[a">
         <field name="TEXT"></field>

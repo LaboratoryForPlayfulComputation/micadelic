@@ -6,13 +6,6 @@ namespace sound {
 
 }
 
-/**
- * Samples
- */
-//% color=#f44242 icon="\uf130" weight=100
-namespace samples {
-
-}
 
 /**
  * Messaging

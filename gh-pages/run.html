@@ -85,7 +85,7 @@
     "workerjs": "/micadelic/worker.js",
     "tdworkerjs": "/micadelic/tdworker.js",
     "monacoworkerjs": "/micadelic/monacoworker.js",
-    "pxtVersion": "2.0.10",
+    "pxtVersion": "2.4.3",
     "pxtRelId": "",
     "pxtCdnUrl": "/micadelic/",
     "commitCdnUrl": "/micadelic/",
@@ -94,6 +94,7 @@
     "targetVersion": "0.0.0",
     "targetRelId": "",
     "targetUrl": "",
+    "targetId": "Micadelic",
     "simUrl": "/micadelic/simulator.html",
     "partsUrl": "/micadelic/siminstructions.html",
     "runUrl": "/micadelic/run.html",
@@ -116,9 +117,16 @@
 
         if (!id && !code && !debugSim) {
             console.error("missing id or code");
-            loading.innerText = 'Oops, wrong arguments...';
+            loading.textContent = 'Oops, wrong arguments...';
             return;
         }
+
+        function initAppCache() {
+            window.applicationCache.addEventListener('updateready', () => {
+                window.location.reload();
+            });
+        }
+        initAppCache();
 
         ksRunnerReady(function() {
             var theme = pxt.appTarget.appTheme;
