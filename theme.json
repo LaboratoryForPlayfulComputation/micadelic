@@ -34,6 +34,7 @@
   "monacoColors": {
     "editor.background": "#ecf0f1"
   },
+  "extendEditor": true,
   "blockColors": {
     "loops": "#30ad14",
     "logic": "#44abff",
@@ -400,17 +401,59 @@
           "subitems": [],
           "path": "/streaming",
           "prevName": "Offline support",
-          "prevPath": "/offline"
+          "prevPath": "/offline",
+          "nextName": "Command Line Interface",
+          "nextPath": "/cli"
         }
       ],
       "prevName": "Function",
       "prevPath": "/types/function"
+    },
+    {
+      "name": "",
+      "subitems": [
+        {
+          "name": "Command Line Interface",
+          "subitems": [],
+          "path": "/cli",
+          "prevName": "Streaming",
+          "prevPath": "/streaming",
+          "nextName": "Visual Studio Code support",
+          "nextPath": "/code"
+        },
+        {
+          "name": "Visual Studio Code support",
+          "subitems": [],
+          "path": "/code",
+          "prevName": "Command Line Interface",
+          "prevPath": "/cli",
+          "nextName": "Coding on Raspberry Pi",
+          "nextPath": "/raspberry-pi"
+        },
+        {
+          "name": "Coding on Raspberry Pi",
+          "subitems": [],
+          "path": "/raspberry-pi",
+          "prevName": "Visual Studio Code support",
+          "prevPath": "/code",
+          "nextName": "Blocks Embed",
+          "nextPath": "/blocks-embed"
+        },
+        {
+          "name": "Blocks Embed",
+          "subitems": [],
+          "path": "/blocks-embed",
+          "prevName": "Coding on Raspberry Pi",
+          "prevPath": "/raspberry-pi"
+        }
+      ],
+      "prevName": "Streaming",
+      "prevPath": "/streaming"
     }
   ],
   "embedUrl": "https://laboratoryforplayfulcomputation.github.io/micadelic/",
   "id": "Micadelic",
   "title": "Micadelic",
   "name": "Micadelic",
-  "htmlDocIncludes": {},
-  "locales": {}
+  "htmlDocIncludes": {}
 }

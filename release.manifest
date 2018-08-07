@@ -15,13 +15,14 @@ CACHE:
 /micadelic/pxtwinrt.js
 /micadelic/pxteditor.js
 /micadelic/pxtsim.js
+/micadelic/blockly.css
 /micadelic/semantic.css
 /micadelic/rtlsemantic.css
 /micadelic/custom.css
 /micadelic/icons.css
 
 
-
+/micadelic/editor.js
 
 # blockly
 /micadelic/blockly/blockly_compressed.js
@@ -46,13 +47,17 @@ CACHE:
 /micadelic/vs/language/typescript/src/mode.js
 /micadelic/vs/language/typescript/src/worker.js
 
+# charts
+/micadelic/smoothie/smoothie_compressed.js
+/micadelic/images/Bars_black.gif
+
 # ai
 https://az416426.vo.msecnd.net/scripts/a/ai.0.js
 
 /micadelic/worker.js
 /micadelic/monacoworker.js
 
-# ver Fri Mar 02 2018 11:15:23 GMT-0700 (MST)
+# ver Tue Aug 07 2018 16:36:02 GMT-0600 (Mountain Daylight Time)
 
 /micadelic/target.js
   
