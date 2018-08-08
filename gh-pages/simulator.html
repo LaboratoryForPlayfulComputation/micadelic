@@ -19,7 +19,7 @@
 
 <body>
     <canvas id="visualizer-canvas" style="padding: 0px; width:100%; height:100%;"></canvas>
-    <audio id="audio" controls></audio>
+    <!--<audio id="audio" controls></audio>-->
     <script type="text/javascript">
         /* Code for putting user ID box outside of sim frame */
         let sims = parent.document.getElementById("simulators");
@@ -40,13 +40,27 @@
         sims.appendChild(userIdForm);
 
         let startButton = parent.document.createElement("BUTTON");
-        startButton.innerHTML = 'start rec';
+        startButton.style.color = 'red';
+        startButton.innerHTML = '&#9679';
         startButton.id = 'startButton';
         let stopButton = parent.document.createElement("BUTTON");
-        stopButton.innerHTML = 'stop rec';
+        stopButton.innerHTML = '&#9632';
         stopButton.id = 'stopButton';
+        let pauseButton = parent.document.createElement("BUTTON");
+        pauseButton.innerHTML = '||';
+        pauseButton.id = 'pauseButton';
         sims.appendChild(startButton);
         sims.appendChild(stopButton);
+        sims.appendChild(pauseButton);
+
+        let scrollableDiv = parent.document.createElement("div");
+        scrollableDiv.style.width = "100%";
+        scrollableDiv.style.height = "150px";
+        scrollableDiv.style.overflowY='scroll';
+        scrollableDiv.style.overflowX='hidden';
+        scrollableDiv.id = "scrolldiv";
+        scrollableDiv.innerHTML = "Recordings:<br>";
+        sims.appendChild(scrollableDiv);
         
     </script>
 

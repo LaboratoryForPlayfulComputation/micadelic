@@ -41,13 +41,5 @@ namespace pxsim.sound {
         }
     }
 
-    /**
-     * Loop recorded sample
-     */
-    //% blockId=loop_recorded_sample block="loop sample| %name"
-    //% blockNamespace=sound inBasicCategory=true
-    //% weight=96
-    export function loopRecordedSample(name: string) : void {
-    }
 
 }

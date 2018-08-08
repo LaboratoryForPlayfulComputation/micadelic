@@ -682,6 +682,8 @@ var pxsim;
 /// <reference path="sound.d.ts" />
 var pxsim;
 (function (pxsim) {
+    var globalrecordings = [];
+    var globalnumRecordings = 0;
     /**
      * This function gets called each time the program restarts
      */
@@ -706,6 +708,10 @@ var pxsim;
             this.canvas = document.getElementById("visualizer-canvas");
             this.canvasContext = this.canvas.getContext("2d");
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            /* to do, don't lose track of recordings on sim restart...*/
+            this.recordings = globalrecordings;
+            this.numRecordings = globalnumRecordings;
+            this.micVolume = 0;
             this.waveformAnalyser = this.audioContext.createAnalyser();
             this.waveformAnalyser.fftSize = 2048;
             this.waveformBufferLength = this.waveformAnalyser.frequencyBinCount;
@@ -742,16 +748,14 @@ var pxsim;
                         self.recorder = new MediaRecorder(stream);
                         self.recorder.onstop = function (e) { pxsim.console.log("done recording"); };
                         self.recorder.ondataavailable = function (e) {
-                            pxsim.console.log(e.data);
-                            var audio = document.getElementById('audio');
-                            // use the blob from the MediaRecorder as source for the audio tag
-                            audio.src = URL.createObjectURL(e.data);
-                            audio.play();
+                            self.newRecordingFinished(e.data);
                         };
                         var startButton = parent.document.getElementById("startButton");
                         var stopButton = parent.document.getElementById("stopButton");
+                        var pauseButton = parent.document.getElementById("pauseButton");
                         startButton.onclick = function () { self.startRecording(); };
                         stopButton.onclick = function () { self.stopRecording(); };
+                        pauseButton.onclick = function () { self.pauseRecording(); };
                         self.source = self.audioContext.createMediaStreamSource(stream);
                         self.source.connect(self.waveformAnalyser);
                         self.source.connect(self.frequencyBarsAnalyser);
@@ -817,13 +821,49 @@ var pxsim;
             this.canvasContext.stroke();
             requestAnimationFrame(this.drawAudioStream.bind(this));
         };
+        Board.prototype.newRecordingFinished = function (data) {
+            // use the blob from the MediaRecorder as source for the audio tag
+            // create audio element
+            var scrolldiv = parent.document.getElementById("scrolldiv");
+            var recordingtitle = "untitled" + this.numRecordings.toString();
+            var recordingtitleinput = parent.document.createElement("input");
+            recordingtitleinput.classList.add('recordingtitle');
+            recordingtitleinput.value = recordingtitle;
+            recordingtitleinput.id = "titleelement-" + this.numRecordings.toString();
+            recordingtitleinput.onchange = function () {
+                var idNum = recordingtitleinput.id.split("-")[1];
+                globalrecordings[parseInt(idNum)]["name"] = recordingtitleinput.value;
+                board().recordings = globalrecordings;
+            };
+            var audioelement = parent.document.createElement("audio");
+            audioelement.id = "audioelement-" + this.numRecordings.toString();
+            audioelement.controls = true;
+            audioelement.src = URL.createObjectURL(data);
+            audioelement.play();
+            globalrecordings.push({ "name": recordingtitle, "audioelement": audioelement });
+            this.recordings = globalrecordings;
+            //this.recordings.push({"name": recordingtitle, "audioelement": audioelement});
+            //this.recordings[recordingtitle] = audioelement; // old
+            var hrtag = parent.document.createElement("HR");
+            scrolldiv.appendChild(recordingtitleinput);
+            scrolldiv.appendChild(audioelement);
+            scrolldiv.appendChild(hrtag);
+            globalnumRecordings += 1;
+            this.numRecordings = globalnumRecordings;
+        };
         Board.prototype.startRecording = function () {
-            if (this.recorder.state == "inactive")
+            if (this.recorder.state == "paused")
+                this.recorder.resume();
+            else if (this.recorder.state == "inactive")
                 this.recorder.start();
+            parent.document.getElementById("startButton").style.border = "thick solid #FFFF00";
+            parent.document.getElementById("pauseButton").style.border = "";
         };
         Board.prototype.pauseRecording = function () {
             if (this.recorder.state == "recording")
                 this.recorder.pause();
+            parent.document.getElementById("pauseButton").style.border = "thick solid #FFFF00";
+            parent.document.getElementById("startButton").style.border = "";
         };
         Board.prototype.resumeRecording = function () {
             if (this.recorder.state == "paused")
@@ -832,6 +872,18 @@ var pxsim;
         Board.prototype.stopRecording = function () {
             if (this.recorder.state != "inactive")
                 this.recorder.stop();
+            parent.document.getElementById("startButton").style.border = "";
+        };
+        Board.prototype.countExistingRecordings = function () {
+            var audioelements = parent.document.getElementsByTagName("audio");
+            var titleelements = parent.document.getElementsByClassName("recordingtitle");
+            if (audioelements.length > 0) {
+                for (var i = 0; i < audioelements.length; i++) {
+                    this.recordings.push({ "name": titleelements[i].nodeValue, "audioelement": audioelements[i] });
+                    this.numRecordings += 1;
+                }
+            }
+            pxsim.console.log(audioelements.length.toString());
         };
         return Board;
     }(pxsim.BaseBoard));
@@ -849,6 +901,7 @@ var pxsim;
         //% blockNamespace=sound inBasicCategory=true
         //% weight=100
         function getVolume() {
+            pxsim.console.log(pxsim.board().micVolume.toString());
             return pxsim.board().micVolume;
         }
         sound.getVolume = getVolume;
@@ -863,24 +916,20 @@ var pxsim;
         }
         sound.getPitch = getPitch;
         /**
-     * Record sample
-     */
-        //% blockId=record_sample block="record sample| %name| %sample"
-        //% blockNamespace=sound inBasicCategory=true
-        //% sample.fieldEditor="recorder"
-        //% sample.fieldOptions.onParentBlock=true
-        //% sample.fieldOptions.decompileLiterals=true    
-        //% weight=98 
-        function recordSample(name, sample) {
-        }
-        sound.recordSample = recordSample;
-        /**
          * Play recorded sample
          */
         //% blockId=play_recorded_sample block="play sample| %name"
         //% blockNamespace=sound inBasicCategory=true
         //% weight=97
         function playRecordedSample(name) {
+            for (var r = 0; r < pxsim.board().recordings.length; r++) {
+                var recording = pxsim.board().recordings[r];
+                if (recording["name"] == name) {
+                    var audioelement = recording["audioelement"];
+                    if (audioelement)
+                        audioelement.play();
+                }
+            }
         }
         sound.playRecordedSample = playRecordedSample;
         /**
