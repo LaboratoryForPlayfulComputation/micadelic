@@ -932,14 +932,5 @@ var pxsim;
             }
         }
         sound.playRecordedSample = playRecordedSample;
-        /**
-         * Loop recorded sample
-         */
-        //% blockId=loop_recorded_sample block="loop sample| %name"
-        //% blockNamespace=sound inBasicCategory=true
-        //% weight=96
-        function loopRecordedSample(name) {
-        }
-        sound.loopRecordedSample = loopRecordedSample;
     })(sound = pxsim.sound || (pxsim.sound = {}));
 })(pxsim || (pxsim = {}));
