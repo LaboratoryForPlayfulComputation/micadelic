@@ -31,7 +31,6 @@
   "sound.getVolume|block": "get mic volume",
   "sound.loopRecordedSample|block": "loop sample| %name",
   "sound.playRecordedSample|block": "play sample| %name",
-  "sound.recordSample|block": "record sample| %name| %sample",
   "sound|block": "sound",
   "{id:category}Array": "Array",
   "{id:category}Arrays": "Arrays",

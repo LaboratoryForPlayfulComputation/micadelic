@@ -63,6 +63,8 @@ declare namespace pxsim {
         audioContext: AudioContext;
         source: any;
         recorder: any;
+        recordings: Array<pxsim.Map<any>>;
+        numRecordings: number;
         waveformAnalyser: AnalyserNode;
         waveformBufferLength: number;
         waveformDataArray: Uint8Array;
@@ -79,10 +81,12 @@ declare namespace pxsim {
         initAudioStream(): void;
         getVolume(array: Uint8Array): number;
         drawAudioStream(): void;
+        newRecordingFinished(data: any): void;
         startRecording(): void;
         pauseRecording(): void;
         resumeRecording(): void;
         stopRecording(): void;
+        countExistingRecordings(): void;
     }
 }
 declare namespace pxsim.sound {
@@ -94,10 +98,6 @@ declare namespace pxsim.sound {
      * Pitch
      */
     function getPitch(): string;
-    /**
- * Record sample
- */
-    function recordSample(name: string, sample: string): void;
     /**
      * Play recorded sample
      */

@@ -2634,54 +2634,6 @@
    "snippet": "getPitch()",
    "qName": "sound.getPitch"
   },
-  "sound.recordSample": {
-   "kind": 3,
-   "namespace": "sound",
-   "name": "recordSample",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "blockId": "record_sample",
-    "block": "record sample| %name| %sample",
-    "blockNamespace": "sound",
-    "inBasicCategory": "true",
-    "paramFieldEditor": {
-     "sample": "recorder"
-    },
-    "paramFieldEditorOptions": {
-     "sample": {
-      "onParentBlock": "true",
-      "decompileLiterals": "true"
-     }
-    },
-    "weight": 98,
-    "shim": "sound::recordSample",
-    "paramHelp": {},
-    "jsDoc": "Record sample",
-    "_name": "recordSample"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "name",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    },
-    {
-     "name": "sample",
-     "description": "",
-     "type": "string",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "recordSample(\"\", \"\")",
-   "qName": "sound.recordSample"
-  },
   "sound.playRecordedSample": {
    "kind": 3,
    "namespace": "sound",

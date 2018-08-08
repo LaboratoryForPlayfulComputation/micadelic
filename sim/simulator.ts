@@ -6,6 +6,10 @@
 
 namespace pxsim {
 
+
+    let globalrecordings = [] as any;
+    let globalnumRecordings = 0;
+
     /**
      * This function gets called each time the program restarts
      */
@@ -31,6 +35,8 @@ namespace pxsim {
         public audioContext : AudioContext;
         public source : any;
         public recorder : any;
+        public recordings : Array<pxsim.Map<any>>;
+        public numRecordings : number;
         public waveformAnalyser : AnalyserNode;
         public waveformBufferLength : number;
         public waveformDataArray : Uint8Array;
@@ -48,6 +54,11 @@ namespace pxsim {
             this.canvas = document.getElementById("visualizer-canvas") as HTMLCanvasElement;
             this.canvasContext = this.canvas.getContext("2d");
             this.audioContext = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+
+            /* to do, don't lose track of recordings on sim restart...*/
+            this.recordings = globalrecordings;
+            this.numRecordings = globalnumRecordings;
+            this.micVolume = 0;
 
             this.waveformAnalyser = this.audioContext.createAnalyser();     
             this.waveformAnalyser.fftSize = 2048;
@@ -92,16 +103,14 @@ namespace pxsim {
                         self.recorder = new MediaRecorder(stream) as any;
                         self.recorder.onstop = function(e: any) {console.log("done recording");}
                         self.recorder.ondataavailable = function(e: any) {
-                            console.log(e.data);
-                            var audio = document.getElementById('audio');
-                            // use the blob from the MediaRecorder as source for the audio tag
-                            (audio as any).src = URL.createObjectURL(e.data);
-                            (audio as any).play();
+                            self.newRecordingFinished(e.data);
                         }
                         let startButton = parent.document.getElementById("startButton");
                         let stopButton = parent.document.getElementById("stopButton");
+                        let pauseButton = parent.document.getElementById("pauseButton");
                         startButton.onclick = function(){ self.startRecording() };
                         stopButton.onclick = function(){ self.stopRecording() };
+                        pauseButton.onclick = function(){ self.pauseRecording() };
                         self.source = self.audioContext.createMediaStreamSource(stream);
                         self.source.connect(self.waveformAnalyser);
                         self.source.connect(self.frequencyBarsAnalyser);
@@ -113,7 +122,7 @@ namespace pxsim {
             } else {
                 console.log('getUserMedia not supported in this browser.');
             }
-            this.source = self.source;   
+            this.source = self.source;
             requestAnimationFrame(this.drawAudioStream.bind(this));       
         }
 
@@ -174,25 +183,76 @@ namespace pxsim {
             requestAnimationFrame(this.drawAudioStream.bind(this));
         }        
         
+        newRecordingFinished(data: any){
+            // use the blob from the MediaRecorder as source for the audio tag
+            // create audio element
+            let scrolldiv = parent.document.getElementById("scrolldiv");
+            let recordingtitle = "untitled" + this.numRecordings.toString();
+            let recordingtitleinput = parent.document.createElement("input");
+            recordingtitleinput.classList.add('recordingtitle');
+            recordingtitleinput.value = recordingtitle;
+            recordingtitleinput.id = "titleelement-" + this.numRecordings.toString();
+            recordingtitleinput.onchange = function(){
+                let idNum = recordingtitleinput.id.split("-")[1];
+                globalrecordings[parseInt(idNum)]["name"] = recordingtitleinput.value;
+                board().recordings = globalrecordings;
+            };
+            let audioelement = parent.document.createElement("audio");
+            audioelement.id = "audioelement-" + this.numRecordings.toString();
+            audioelement.controls = true;
+            (audioelement as any).src = URL.createObjectURL(data);
+            (audioelement as any).play();
+
+            globalrecordings.push({"name": recordingtitle, "audioelement": audioelement});
+            this.recordings = globalrecordings;
+            //this.recordings.push({"name": recordingtitle, "audioelement": audioelement});
+            //this.recordings[recordingtitle] = audioelement; // old
+            let hrtag = parent.document.createElement("HR");
+            scrolldiv.appendChild(recordingtitleinput);
+            scrolldiv.appendChild(audioelement);
+            scrolldiv.appendChild(hrtag);
+            globalnumRecordings += 1;
+            this.numRecordings = globalnumRecordings;
+        }
 
         startRecording(){
-        if (this.recorder.state == "inactive") // inactive, recording, or paused
-            this.recorder.start();
+            if (this.recorder.state == "paused")
+                this.recorder.resume();
+            else if (this.recorder.state == "inactive") // inactive, recording, or paused
+                this.recorder.start();
+                parent.document.getElementById("startButton").style.border = "thick solid #FFFF00";
+                parent.document.getElementById("pauseButton").style.border = "";
+
         }
 
         pauseRecording(){
-        if (this.recorder.state == "recording")
-            this.recorder.pause();
+            if (this.recorder.state == "recording")
+                this.recorder.pause();
+                parent.document.getElementById("pauseButton").style.border = "thick solid #FFFF00";
+                parent.document.getElementById("startButton").style.border = "";
         }
 
         resumeRecording(){
-        if (this.recorder.state == "paused")
-            this.recorder.resume();
+            if (this.recorder.state == "paused")
+                this.recorder.resume();
         }
 
         stopRecording(){
             if (this.recorder.state != "inactive")
                 this.recorder.stop();
+                parent.document.getElementById("startButton").style.border = "";
+        }
+
+        countExistingRecordings(){
+            let audioelements = parent.document.getElementsByTagName("audio");
+            let titleelements = parent.document.getElementsByClassName("recordingtitle");
+            if (audioelements.length > 0){
+                for (var i = 0; i < audioelements.length; i++){
+                    this.recordings.push({"name": titleelements[i].nodeValue, "audioelement": audioelements[i]});
+                    this.numRecordings += 1;
+                }
+            }
+            console.log(audioelements.length.toString());
         }
 
     }

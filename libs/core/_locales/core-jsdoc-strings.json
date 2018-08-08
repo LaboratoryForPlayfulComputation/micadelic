@@ -111,6 +111,5 @@
   "sound.getPitch": "Pitch",
   "sound.getVolume": "Mic Volume",
   "sound.loopRecordedSample": "Loop recorded sample",
-  "sound.playRecordedSample": "Play recorded sample",
-  "sound.recordSample": "Record sample"
+  "sound.playRecordedSample": "Play recorded sample"
 }

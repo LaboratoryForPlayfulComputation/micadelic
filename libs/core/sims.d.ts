@@ -70,18 +70,6 @@ declare namespace sound {
     function getPitch(): string;
 
     /**
-     * Record sample
-     */
-    //% blockId=record_sample block="record sample| %name| %sample"
-    //% blockNamespace=sound inBasicCategory=true
-    //% sample.fieldEditor="recorder"
-    //% sample.fieldOptions.onParentBlock=true
-    //% sample.fieldOptions.decompileLiterals=true    
-    //% weight=98
-    //% shim=sound::recordSample
-    function recordSample(name: string, sample: string): void;
-
-    /**
      * Play recorded sample
      */
     //% blockId=play_recorded_sample block="play sample| %name"

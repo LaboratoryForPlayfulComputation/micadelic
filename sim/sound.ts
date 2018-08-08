@@ -9,6 +9,7 @@ namespace pxsim.sound {
     //% blockNamespace=sound inBasicCategory=true
     //% weight=100
     export function getVolume() : number { 
+        console.log(board().micVolume.toString());
         return board().micVolume;
     }
 
@@ -22,17 +23,6 @@ namespace pxsim.sound {
         return analysis.detectPitch();
     }
 
-        /**
-     * Record sample
-     */
-    //% blockId=record_sample block="record sample| %name| %sample"
-    //% blockNamespace=sound inBasicCategory=true
-    //% sample.fieldEditor="recorder"
-    //% sample.fieldOptions.onParentBlock=true
-    //% sample.fieldOptions.decompileLiterals=true    
-    //% weight=98 
-    export function recordSample(name: string, sample: string) : void {
-    }
 
     /**
      * Play recorded sample
@@ -41,6 +31,14 @@ namespace pxsim.sound {
     //% blockNamespace=sound inBasicCategory=true
     //% weight=97
     export function playRecordedSample(name: string) : void {
+        for (var r = 0; r < board().recordings.length; r++){
+            let recording = board().recordings[r];
+            if (recording["name"] == name){
+                let audioelement = recording["audioelement"];
+                if (audioelement)
+                    audioelement.play();
+            }
+        }
     }
 
     /**
